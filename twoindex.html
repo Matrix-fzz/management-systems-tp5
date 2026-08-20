@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Immobilière</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Gestion des Logements - Agence Immobilière</h1>
+    </header>
+
+    <main class="container">
+        <!-- Section pour ajouter des données -->
+        <section class="forms-section">
+            <div class="form-container">
+                <h2>Ajouter un Logement</h2>
+                <form id="form-add-logement">
+                    <input type="text" id="logement-adresse" placeholder="Adresse" required>
+                    <input type="number" id="logement-superficie" placeholder="Superficie (m²)" required>
+                    <input type="number" id="logement-loyer" placeholder="Loyer de base (€)" required>
+                    <select id="logement-type" required></select>
+                    <select id="logement-quartier" required></select>
+                    <button type="submit">Ajouter Logement</button>
+                </form>
+            </div>
+            <div class="form-container">
+                <h2>Ajouter un Locataire (Individu)</h2>
+                <form id="form-add-individu">
+                    <input type="text" id="individu-nom" placeholder="Nom" required>
+                    <input type="text" id="individu-prenom" placeholder="Prénom" required>
+                    <input type="date" id="individu-date" placeholder="Date de naissance" required>
+                    <input type="tel" id="individu-tel" placeholder="Téléphone" required>
+                    <button type="submit">Ajouter Individu</button>
+                </form>
+            </div>
+             <div class="form-container">
+                <h2>Attribuer un Logement</h2>
+                <form id="form-add-contrat">
+                    <label for="contrat-individu">Choisir un locataire disponible :</label>
+                    <select id="contrat-individu" required></select>
+                    <label for="contrat-logement">Choisir un logement disponible :</label>
+                    <select id="contrat-logement" required></select>
+                    <button type="submit">Créer Contrat</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Section pour afficher les données -->
+        <section class="display-section">
+            <h2>Liste des Logements</h2>
+            <div id="liste-logements" class="card-container">
+                <!-- Les logements seront ajoutés ici par JavaScript -->
+            </div>
+        </section>
+
+         <section class="display-section">
+            <h2>Liste des Locataires</h2>
+            <div id="liste-individus" class="card-container">
+                <!-- Les individus seront ajoutés ici par JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

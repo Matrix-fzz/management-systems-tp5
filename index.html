@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --gray: #95a5a6;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab:not(.active):hover {
+            background: var(--light);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .edit-btn {
+            background: var(--warning);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+        }
+
+        .view-operations-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .search-control {
+            padding-left: 40px;
+            width: 100%;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .agency-icon {
+            background: rgba(52, 152, 219, 0.15);
+            color: var(--primary);
+        }
+
+        .comptable-icon {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--success);
+        }
+
+        .operation-icon {
+            background: rgba(243, 156, 18, 0.15);
+            color: var(--warning);
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .nested-operations {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .nested-operations h3 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nested-operations h3 .btn {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+
+        .nested-operations table {
+            background: white;
+        }
+
+        .nested-operations th {
+            background: #e9ecef;
+        }
+
+        .nested-operations tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .nested-operations tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .action-cell {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <h1>Accounting Management System</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon agency-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="agency-count">0</h3>
+                    <p>Total Agencies</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon comptable-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="comptable-count">0</h3>
+                    <p>Total Accountants</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon operation-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="operation-count">0</h3>
+                    <p>Total Operations</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="agencies">Agencies</div>
+            <div class="tab" data-tab="accountants">Accountants</div>
+            <div class="tab" data-tab="operations">Operations</div>
+        </div>
+
+        <!-- Agencies Content -->
+        <div class="content active" id="agencies-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Agencies</h2>
+                    <button class="btn btn-primary" id="add-agency-btn">
+                        <i class="fas fa-plus"></i> Add Agency
+                    </button>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control search-control" id="agency-search" placeholder="Search agencies...">
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="agencies-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Director</th>
+                                <th>City</th>
+                                <th>Phone</th>
+                                <th>Accountants</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="agencies-tbody">
+                            <!-- Agencies will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accountants Content -->
+        <div class="content" id="accountants-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Accountants</h2>
+                    <button class="btn btn-primary" id="add-accountant-btn">
+                        <i class="fas fa-plus"></i> Add Accountant
+                    </button>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control search-control" id="accountant-search" placeholder="Search accountants...">
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="accountants-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Phone</th>
+                                <th>Agency</th>
+                                <th>Operations</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accountants-tbody">
+                            <!-- Accountants will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operations Content -->
+        <div class="content" id="operations-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Operations</h2>
+                    <button class="btn btn-primary" id="add-operation-btn">
+                        <i class="fas fa-plus"></i> Add Operation
+                    </button>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control search-control" id="operation-search" placeholder="Search operations...">
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="operations-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Commune</th>
+                                <th>SAU</th>
+                                <th>Accountant</th>
+                                <th>Agency</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="operations-tbody">
+                            <!-- Operations will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Agency Modal -->
+    <div class="modal" id="agency-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="agency-modal-title">Add Agency</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="agency-form">
+                    <input type="hidden" id="agency-id">
+                    <div class="form-group">
+                        <label for="agency-name">Agency Name</label>
+                        <input type="text" class="form-control" id="agency-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="agency-director">Director</label>
+                        <input type="text" class="form-control" id="agency-director">
+                    </div>
+                    <div class="form-group">
+                        <label for="agency-city">City</label>
+                        <input type="text" class="form-control" id="agency-city">
+                    </div>
+                    <div class="form-group">
+                        <label for="agency-phone">Phone</label>
+                        <input type="text" class="form-control" id="agency-phone">
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Agency
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Accountant Modal -->
+    <div class="modal" id="accountant-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="accountant-modal-title">Add Accountant</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="accountant-form">
+                    <input type="hidden" id="accountant-id">
+                    <div class="form-group">
+                        <label for="accountant-name">Name</label>
+                        <input type="text" class="form-control" id="accountant-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountant-age">Age</label>
+                        <input type="number" class="form-control" id="accountant-age" min="18" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountant-phone">Phone</label>
+                        <input type="text" class="form-control" id="accountant-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountant-agency">Agency</label>
+                        <select class="form-control" id="accountant-agency" required>
+                            <option value="">Select Agency</option>
+                            <!-- Agencies will be populated here -->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Accountant
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Operation Modal -->
+    <div class="modal" id="operation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="operation-modal-title">Add Operation</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="operation-form">
+                    <input type="hidden" id="operation-id">
+                    <div class="form-group">
+                        <label for="operation-name">Operation Name</label>
+                        <input type="text" class="form-control" id="operation-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="operation-commune">Commune</label>
+                        <input type="text" class="form-control" id="operation-commune" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="operation-sau">SAU</label>
+                        <input type="text" class="form-control" id="operation-sau" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="operation-accountant">Accountant</label>
+                        <select class="form-control" id="operation-accountant" required>
+                            <option value="">Select Accountant</option>
+                            <!-- Accountants will be populated here -->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Operation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Data storage
+        let agencies = JSON.parse(localStorage.getItem('agencies')) || [
+            { id: 1, name: "Global Finance Solutions", director: "John Smith", city: "New York", phone: "(555) 123-4567" },
+            { id: 2, name: "Eco Accounting Services", director: "Sarah Johnson", city: "San Francisco", phone: "(555) 987-6543" },
+            { id: 3, name: "Tech Audit Experts", director: "Michael Brown", city: "Austin", phone: "(555) 456-7890" }
+        ];
+        
+        let accountants = JSON.parse(localStorage.getItem('accountants')) || [
+            { id: 1, name: "Emma Wilson", age: 32, phone: "(555) 111-2222", agencyId: 1 },
+            { id: 2, name: "David Miller", age: 45, phone: "(555) 333-4444", agencyId: 2 },
+            { id: 3, name: "Olivia Davis", age: 28, phone: "(555) 555-6666", agencyId: 3 },
+            { id: 4, name: "James Wilson", age: 38, phone: "(555) 777-8888", agencyId: 1 }
+        ];
+        
+        let operations = JSON.parse(localStorage.getItem('operations')) || [
+            { id: 1, name: "Commercial Property Management", commune: "Manhattan", sau: "12345", accountantId: 1 },
+            { id: 2, name: "Residential Development", commune: "Brooklyn", sau: "67890", accountantId: 1 },
+            { id: 3, name: "Green Energy Project", commune: "San Francisco", sau: "54321", accountantId: 2 },
+            { id: 4, name: "Tech Startup Incubator", commune: "Austin", sau: "98765", accountantId: 3 },
+            { id: 5, name: "Retail Chain Expansion", commune: "Queens", sau: "24680", accountantId: 4 }
+        ];
+        
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.content');
+        const agenciesTbody = document.getElementById('agencies-tbody');
+        const accountantsTbody = document.getElementById('accountants-tbody');
+        const operationsTbody = document.getElementById('operations-tbody');
+        const agencyModal = document.getElementById('agency-modal');
+        const accountantModal = document.getElementById('accountant-modal');
+        const operationModal = document.getElementById('operation-modal');
+        const agencyForm = document.getElementById('agency-form');
+        const accountantForm = document.getElementById('accountant-form');
+        const operationForm = document.getElementById('operation-form');
+        const notification = document.getElementById('notification');
+        const addAgencyBtn = document.getElementById('add-agency-btn');
+        const addAccountantBtn = document.getElementById('add-accountant-btn');
+        const addOperationBtn = document.getElementById('add-operation-btn');
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+        const agencySearch = document.getElementById('agency-search');
+        const accountantSearch = document.getElementById('accountant-search');
+        const operationSearch = document.getElementById('operation-search');
+        const agencyCountEl = document.getElementById('agency-count');
+        const comptableCountEl = document.getElementById('comptable-count');
+        const operationCountEl = document.getElementById('operation-count');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAgencies();
+            renderAccountants();
+            renderOperations();
+            updateStats();
+            
+            // Set up event listeners
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+                    activateTab(tabName);
+                });
+            });
+            
+            addAgencyBtn.addEventListener('click', () => openAgencyModal());
+            addAccountantBtn.addEventListener('click', () => openAccountantModal());
+            addOperationBtn.addEventListener('click', () => openOperationModal());
+            
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    agencyModal.style.display = 'none';
+                    accountantModal.style.display = 'none';
+                    operationModal.style.display = 'none';
+                });
+            });
+            
+            agencyForm.addEventListener('submit', saveAgency);
+            accountantForm.addEventListener('submit', saveAccountant);
+            operationForm.addEventListener('submit', saveOperation);
+            
+            agencySearch.addEventListener('input', filterAgencies);
+            accountantSearch.addEventListener('input', filterAccountants);
+            operationSearch.addEventListener('input', filterOperations);
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === agencyModal) agencyModal.style.display = 'none';
+                if (e.target === accountantModal) accountantModal.style.display = 'none';
+                if (e.target === operationModal) operationModal.style.display = 'none';
+            });
+        });
+        
+        // Tab switching
+        function activateTab(tabName) {
+            // Remove active class from all tabs and contents
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`${tabName}-content`).classList.add('active');
+        }
+        
+        // Agency functions
+        function renderAgencies(filter = '') {
+            agenciesTbody.innerHTML = '';
+            const filteredAgencies = agencies.filter(agency => 
+                agency.name.toLowerCase().includes(filter.toLowerCase()) ||
+                agency.director.toLowerCase().includes(filter.toLowerCase()) ||
+                agency.city.toLowerCase().includes(filter.toLowerCase())
+            );
+            
+            filteredAgencies.forEach(agency => {
+                // Count accountants for this agency
+                const accountantCount = accountants.filter(a => a.agencyId === agency.id).length;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${agency.id}</td>
+                    <td>${agency.name}</td>
+                    <td>${agency.director}</td>
+                    <td>${agency.city}</td>
+                    <td>${agency.phone}</td>
+                    <td>${accountantCount}</td>
+                    <td class="action-cell">
+                        <button class="action-btn view-operations-btn" data-id="${agency.id}">
+                            <i class="fas fa-users"></i> View Accountants
+                        </button>
+                        <button class="action-btn edit-btn" data-id="${agency.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" data-id="${agency.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                agenciesTbody.appendChild(row);
+            });
+            
+            // Add event listeners to view accountants, edit and delete buttons
+            document.querySelectorAll('.view-operations-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    showAccountantsForAgency(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editAgency(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteAgency(id);
+                });
+            });
+        }
+        
+        function showAccountantsForAgency(agencyId) {
+            // Remove any existing nested accountants sections
+            document.querySelectorAll('.nested-operations').forEach(el => el.remove());
+            
+            // Find the agency row to insert after
+            const agencyRow = document.querySelector(`tr td button[data-id="${agencyId}"]`).closest('tr');
+            
+            // Create the nested accountants section
+            const nestedSection = document.createElement('div');
+            nestedSection.className = 'nested-operations';
+            
+            const agency = agencies.find(a => a.id === agencyId);
+            nestedSection.innerHTML = `
+                <h3>
+                    Accountants for ${agency.name}
+                    <button class="btn btn-primary" id="add-accountant-to-agency-${agencyId}">
+                        <i class="fas fa-plus"></i> Add Accountant
+                    </button>
+                </h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Phone</th>
+                                <th>Operations</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nested-accountants-tbody-${agencyId}">
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Insert the nested section after the agency row
+            agencyRow.parentNode.insertBefore(nestedSection, agencyRow.nextSibling);
+            
+            // Populate the nested table with accountants for this agency
+            const accountantsTbody = document.getElementById(`nested-accountants-tbody-${agencyId}`);
+            accountantsTbody.innerHTML = '';
+            
+            const agencyAccountants = accountants.filter(a => a.agencyId === agencyId);
+            
+            agencyAccountants.forEach(accountant => {
+                // Count operations for this accountant
+                const operationCount = operations.filter(o => o.accountantId === accountant.id).length;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${accountant.id}</td>
+                    <td>${accountant.name}</td>
+                    <td>${accountant.age}</td>
+                    <td>${accountant.phone}</td>
+                    <td>${operationCount}</td>
+                    <td class="action-cell">
+                        <button class="action-btn edit-btn" data-id="${accountant.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" data-id="${accountant.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                accountantsTbody.appendChild(row);
+            });
+            
+            // Add event listeners to the new edit and delete buttons
+            document.querySelectorAll(`#nested-accountants-tbody-${agencyId} .edit-btn`).forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editAccountant(id);
+                });
+            });
+            
+            document.querySelectorAll(`#nested-accountants-tbody-${agencyId} .delete-btn`).forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteAccountant(id);
+                });
+            });
+            
+            // Add event listener to the add accountant button
+            document.getElementById(`add-accountant-to-agency-${agencyId}`).addEventListener('click', () => {
+                openAccountantModal(null, agencyId);
+            });
+        }
+        
+        function openAgencyModal(agency = null) {
+            const title = document.getElementById('agency-modal-title');
+            const idInput = document.getElementById('agency-id');
+            const nameInput = document.getElementById('agency-name');
+            const directorInput = document.getElementById('agency-director');
+            const cityInput = document.getElementById('agency-city');
+            const phoneInput = document.getElementById('agency-phone');
+            
+            if (agency) {
+                title.textContent = 'Edit Agency';
+                idInput.value = agency.id;
+                nameInput.value = agency.name;
+                directorInput.value = agency.director;
+                cityInput.value = agency.city;
+                phoneInput.value = agency.phone;
+            } else {
+                title.textContent = 'Add Agency';
+                idInput.value = '';
+                nameInput.value = '';
+                directorInput.value = '';
+                cityInput.value = '';
+                phoneInput.value = '';
+            }
+            
+            agencyModal.style.display = 'flex';
+        }
+        
+        function saveAgency(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('agency-id').value;
+            const name = document.getElementById('agency-name').value;
+            const director = document.getElementById('agency-director').value;
+            const city = document.getElementById('agency-city').value;
+            const phone = document.getElementById('agency-phone').value;
+            
+            if (id) {
+                // Update existing agency
+                const index = agencies.findIndex(a => a.id == id);
+                if (index !== -1) {
+                    agencies[index] = {
+                        id: parseInt(id),
+                        name,
+                        director,
+                        city,
+                        phone
+                    };
+                    showNotification('Agency updated successfully!', 'success');
+                }
+            } else {
+                // Add new agency
+                const newId = agencies.length > 0 ? Math.max(...agencies.map(a => a.id)) + 1 : 1;
+                agencies.push({
+                    id: newId,
+                    name,
+                    director,
+                    city,
+                    phone
+                });
+                showNotification('Agency added successfully!', 'success');
+            }
+            
+            saveToLocalStorage();
+            renderAgencies();
+            updateStats();
+            agencyModal.style.display = 'none';
+        }
+        
+        function editAgency(id) {
+            const agency = agencies.find(a => a.id === id);
+            if (agency) {
+                openAgencyModal(agency);
+            }
+        }
+        
+        function deleteAgency(id) {
+            if (confirm('Are you sure you want to delete this agency?')) {
+                agencies = agencies.filter(a => a.id !== id);
+                
+                // Remove accountants associated with this agency
+                accountants = accountants.filter(a => a.agencyId !== id);
+                
+                // Remove operations associated with accountants from this agency
+                const accountantIds = accountants.filter(a => a.agencyId === id).map(a => a.id);
+                operations = operations.filter(o => !accountantIds.includes(o.accountantId));
+                
+                saveToLocalStorage();
+                renderAgencies();
+                renderAccountants();
+                renderOperations();
+                updateStats();
+                showNotification('Agency deleted successfully!', 'success');
+            }
+        }
+        
+        // Accountant functions
+        function renderAccountants(filter = '') {
+            accountantsTbody.innerHTML = '';
+            const filteredAccountants = accountants.filter(accountant => 
+                accountant.name.toLowerCase().includes(filter.toLowerCase()) ||
+                accountant.phone.toLowerCase().includes(filter.toLowerCase())
+            );
+            
+            filteredAccountants.forEach(accountant => {
+                const agency = agencies.find(a => a.id === accountant.agencyId);
+                const agencyName = agency ? agency.name : 'Unassigned';
+                
+                // Count operations for this accountant
+                const operationCount = operations.filter(o => o.accountantId === accountant.id).length;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${accountant.id}</td>
+                    <td>${accountant.name}</td>
+                    <td>${accountant.age}</td>
+                    <td>${accountant.phone}</td>
+                    <td>${agencyName}</td>
+                    <td>${operationCount}</td>
+                    <td class="action-cell">
+                        <button class="action-btn view-operations-btn" data-id="${accountant.id}">
+                            <i class="fas fa-file-invoice-dollar"></i> View Operations
+                        </button>
+                        <button class="action-btn edit-btn" data-id="${accountant.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" data-id="${accountant.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                accountantsTbody.appendChild(row);
+            });
+            
+            // Add event listeners to view operations, edit and delete buttons
+            document.querySelectorAll('.view-operations-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    showOperationsForAccountant(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editAccountant(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteAccountant(id);
+                });
+            });
+        }
+        
+        function showOperationsForAccountant(accountantId) {
+            // Remove any existing nested operations sections
+            document.querySelectorAll('.nested-operations').forEach(el => el.remove());
+            
+            // Find the accountant row to insert after
+            const accountantRow = document.querySelector(`tr td button[data-id="${accountantId}"]`).closest('tr');
+            
+            // Create the nested operations section
+            const nestedSection = document.createElement('div');
+            nestedSection.className = 'nested-operations';
+            
+            const accountant = accountants.find(a => a.id === accountantId);
+            const agency = agencies.find(a => a.id === accountant.agencyId);
+            
+            nestedSection.innerHTML = `
+                <h3>
+                    Operations for ${accountant.name} (${agency ? agency.name : 'No Agency'})
+                    <button class="btn btn-primary" id="add-operation-to-accountant-${accountantId}">
+                        <i class="fas fa-plus"></i> Add Operation
+                    </button>
+                </h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Commune</th>
+                                <th>SAU</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nested-operations-tbody-${accountantId}">
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Insert the nested section after the accountant row
+            accountantRow.parentNode.insertBefore(nestedSection, accountantRow.nextSibling);
+            
+            // Populate the nested table with operations for this accountant
+            const operationsTbody = document.getElementById(`nested-operations-tbody-${accountantId}`);
+            operationsTbody.innerHTML = '';
+            
+            const accountantOperations = operations.filter(o => o.accountantId === accountantId);
+            
+            accountantOperations.forEach(operation => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${operation.id}</td>
+                    <td>${operation.name}</td>
+                    <td>${operation.commune}</td>
+                    <td>${operation.sau}</td>
+                    <td class="action-cell">
+                        <button class="action-btn edit-btn" data-id="${operation.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" data-id="${operation.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                operationsTbody.appendChild(row);
+            });
+            
+            // Add event listeners to the new edit and delete buttons
+            document.querySelectorAll(`#nested-operations-tbody-${accountantId} .edit-btn`).forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editOperation(id);
+                });
+            });
+            
+            document.querySelectorAll(`#nested-operations-tbody-${accountantId} .delete-btn`).forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteOperation(id);
+                });
+            });
+            
+            // Add event listener to the add operation button
+            document.getElementById(`add-operation-to-accountant-${accountantId}`).addEventListener('click', () => {
+                openOperationModal(null, accountantId);
+            });
+        }
+        
+        function populateAgencySelect() {
+            const select = document.getElementById('accountant-agency');
+            select.innerHTML = '<option value="">Select Agency</option>';
+            
+            agencies.forEach(agency => {
+                const option = document.createElement('option');
+                option.value = agency.id;
+                option.textContent = agency.name;
+                select.appendChild(option);
+            });
+        }
+        
+        function openAccountantModal(accountant = null, agencyId = null) {
+            populateAgencySelect();
+            
+            const title = document.getElementById('accountant-modal-title');
+            const idInput = document.getElementById('accountant-id');
+            const nameInput = document.getElementById('accountant-name');
+            const ageInput = document.getElementById('accountant-age');
+            const phoneInput = document.getElementById('accountant-phone');
+            const agencySelect = document.getElementById('accountant-agency');
+            
+            if (accountant) {
+                title.textContent = 'Edit Accountant';
+                idInput.value = accountant.id;
+                nameInput.value = accountant.name;
+                ageInput.value = accountant.age;
+                phoneInput.value = accountant.phone;
+                agencySelect.value = accountant.agencyId;
+            } else {
+                title.textContent = 'Add Accountant';
+                idInput.value = '';
+                nameInput.value = '';
+                ageInput.value = '';
+                phoneInput.value = '';
+                agencySelect.value = agencyId || '';
+            }
+            
+            accountantModal.style.display = 'flex';
+        }
+        
+        function saveAccountant(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('accountant-id').value;
+            const name = document.getElementById('accountant-name').value;
+            const age = parseInt(document.getElementById('accountant-age').value);
+            const phone = document.getElementById('accountant-phone').value;
+            const agencyId = parseInt(document.getElementById('accountant-agency').value);
+            
+            if (id) {
+                // Update existing accountant
+                const index = accountants.findIndex(a => a.id == id);
+                if (index !== -1) {
+                    accountants[index] = {
+                        id: parseInt(id),
+                        name,
+                        age,
+                        phone,
+                        agencyId
+                    };
+                    showNotification('Accountant updated successfully!', 'success');
+                }
+            } else {
+                // Add new accountant
+                const newId = accountants.length > 0 ? Math.max(...accountants.map(a => a.id)) + 1 : 1;
+                accountants.push({
+                    id: newId,
+                    name,
+                    age,
+                    phone,
+                    agencyId
+                });
+                showNotification('Accountant added successfully!', 'success');
+            }
+            
+            saveToLocalStorage();
+            renderAccountants();
+            updateStats();
+            
+            // If we're in the nested view, update it too
+            if (document.querySelector('.nested-operations')) {
+                const currentAgencyId = parseInt(document.querySelector('.nested-operations h3 button').id.split('-').pop());
+                showAccountantsForAgency(currentAgencyId);
+            }
+            
+            accountantModal.style.display = 'none';
+        }
+        
+        function editAccountant(id) {
+            const accountant = accountants.find(a => a.id === id);
+            if (accountant) {
+                openAccountantModal(accountant);
+            }
+        }
+        
+        function deleteAccountant(id) {
+            if (confirm('Are you sure you want to delete this accountant?')) {
+                accountants = accountants.filter(a => a.id !== id);
+                
+                // Remove operations associated with this accountant
+                operations = operations.filter(o => o.accountantId !== id);
+                
+                saveToLocalStorage();
+                renderAccountants();
+                renderOperations();
+                updateStats();
+                showNotification('Accountant deleted successfully!', 'success');
+                
+                // If we're in the nested view, update it too
+                if (document.querySelector('.nested-operations')) {
+                    const currentAgencyId = parseInt(document.querySelector('.nested-operations h3 button').id.split('-').pop());
+                    showAccountantsForAgency(currentAgencyId);
+                }
+            }
+        }
+        
+        // Operation functions
+        function renderOperations(filter = '') {
+            operationsTbody.innerHTML = '';
+            const filteredOperations = operations.filter(operation => 
+                operation.name.toLowerCase().includes(filter.toLowerCase()) ||
+                operation.commune.toLowerCase().includes(filter.toLowerCase()) ||
+                operation.sau.toLowerCase().includes(filter.toLowerCase())
+            );
+            
+            filteredOperations.forEach(operation => {
+                const accountant = accountants.find(a => a.id === operation.accountantId);
+                const accountantName = accountant ? accountant.name : 'Unassigned';
+                
+                const agency = accountant ? agencies.find(a => a.id === accountant.agencyId) : null;
+                const agencyName = agency ? agency.name : 'Unassigned';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${operation.id}</td>
+                    <td>${operation.name}</td>
+                    <td>${operation.commune}</td>
+                    <td>${operation.sau}</td>
+                    <td>${accountantName}</td>
+                    <td>${agencyName}</td>
+                    <td class="action-cell">
+                        <button class="action-btn edit-btn" data-id="${operation.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" data-id="${operation.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                operationsTbody.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editOperation(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteOperation(id);
+                });
+            });
+        }
+        
+        function populateAccountantSelect() {
+            const select = document.getElementById('operation-accountant');
+            select.innerHTML = '<option value="">Select Accountant</option>';
+            
+            accountants.forEach(accountant => {
+                const option = document.createElement('option');
+                option.value = accountant.id;
+                option.textContent = `${accountant.name} (${accountant.age})`;
+                select.appendChild(option);
+            });
+        }
+        
+        function openOperationModal(operation = null, accountantId = null) {
+            populateAccountantSelect();
+            
+            const title = document.getElementById('operation-modal-title');
+            const idInput = document.getElementById('operation-id');
+            const nameInput = document.getElementById('operation-name');
+            const communeInput = document.getElementById('operation-commune');
+            const sauInput = document.getElementById('operation-sau');
+            const accountantSelect = document.getElementById('operation-accountant');
+            
+            if (operation) {
+                title.textContent = 'Edit Operation';
+                idInput.value = operation.id;
+                nameInput.value = operation.name;
+                communeInput.value = operation.commune;
+                sauInput.value = operation.sau;
+                accountantSelect.value = operation.accountantId;
+            } else {
+                title.textContent = 'Add Operation';
+                idInput.value = '';
+                nameInput.value = '';
+                communeInput.value = '';
+                sauInput.value = '';
+                accountantSelect.value = accountantId || '';
+            }
+            
+            operationModal.style.display = 'flex';
+        }
+        
+        function saveOperation(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('operation-id').value;
+            const name = document.getElementById('operation-name').value;
+            const commune = document.getElementById('operation-commune').value;
+            const sau = document.getElementById('operation-sau').value;
+            const accountantId = parseInt(document.getElementById('operation-accountant').value);
+            
+            if (id) {
+                // Update existing operation
+                const index = operations.findIndex(o => o.id == id);
+                if (index !== -1) {
+                    operations[index] = {
+                        id: parseInt(id),
+                        name,
+                        commune,
+                        sau,
+                        accountantId
+                    };
+                    showNotification('Operation updated successfully!', 'success');
+                }
+            } else {
+                // Add new operation
+                const newId = operations.length > 0 ? Math.max(...operations.map(o => o.id)) + 1 : 1;
+                operations.push({
+                    id: newId,
+                    name,
+                    commune,
+                    sau,
+                    accountantId
+                });
+                showNotification('Operation added successfully!', 'success');
+            }
+            
+            saveToLocalStorage();
+            renderOperations();
+            updateStats();
+            
+            // If we're in the nested view, update it too
+            if (document.querySelector('.nested-operations')) {
+                const currentAccountantId = parseInt(document.querySelector('.nested-operations h3 button').id.split('-').pop());
+                showOperationsForAccountant(currentAccountantId);
+            }
+            
+            operationModal.style.display = 'none';
+        }
+        
+        function editOperation(id) {
+            const operation = operations.find(o => o.id === id);
+            if (operation) {
+                openOperationModal(operation);
+            }
+        }
+        
+        function deleteOperation(id) {
+            if (confirm('Are you sure you want to delete this operation?')) {
+                operations = operations.filter(o => o.id !== id);
+                saveToLocalStorage();
+                renderOperations();
+                updateStats();
+                showNotification('Operation deleted successfully!', 'success');
+                
+                // If we're in the nested view, update it too
+                if (document.querySelector('.nested-operations')) {
+                    const currentAccountantId = parseInt(document.querySelector('.nested-operations h3 button').id.split('-').pop());
+                    showOperationsForAccountant(currentAccountantId);
+                }
+            }
+        }
+        
+        // Filtering
+        function filterAgencies() {
+            const filter = agencySearch.value;
+            renderAgencies(filter);
+        }
+        
+        function filterAccountants() {
+            const filter = accountantSearch.value;
+            renderAccountants(filter);
+        }
+        
+        function filterOperations() {
+            const filter = operationSearch.value;
+            renderOperations(filter);
+        }
+        
+        // Stats update
+        function updateStats() {
+            agencyCountEl.textContent = agencies.length;
+            comptableCountEl.textContent = accountants.length;
+            operationCountEl.textContent = operations.length;
+        }
+        
+        // Local storage
+        function saveToLocalStorage() {
+            localStorage.setItem('agencies', JSON.stringify(agencies));
+            localStorage.setItem('accountants', JSON.stringify(accountants));
+            localStorage.setItem('operations', JSON.stringify(operations));
+        }
+        
+        // Notification
+        function showNotification(message, type) {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
